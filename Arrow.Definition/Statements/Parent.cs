@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Arrow.Definition.Statements
 {
-    public class Parent : ParentStatement
+    public class Parent : ParentStatement, IExpression
     {
         private readonly string nameOpen;
         private readonly string nameClose;
@@ -46,12 +46,14 @@ namespace Arrow.Definition.Statements
                     {
                         if (i -1 != 0)
                         {
-                            //TODO: TryScan with IExpression
-                            Member = scanner.Scan(stream.Get(1, i - 1));
+                            if (scanner.TryGetExpression(stream.Get(1, i - 1), out IExpression member))
+                                Member = member;
+                            else
+                                throw new NotSupportedException("This is not currently supported");
                         }
 
                         Position = stream.GlobalPosition;
-                        Length = i + 1;
+                        Length = i + Member.Length + 1;
 
                         return true;
                     }

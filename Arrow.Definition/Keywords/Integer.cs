@@ -10,7 +10,7 @@ using Arrow.Core.Scanning;
 
 namespace Arrow.Definition.Keywords
 {
-    public class Integer : IntegerKeyword
+    public class Integer : IntegerKeyword, IExpression
     {
 
         public override bool TryParse(TokenStream stream, Scanner scanner)

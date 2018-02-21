@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Arrow.Definition.Statements
 {
-    public class Operation : OperationStatement
+    public class Operation : OperationStatement, IExpression
     {
         public override bool TryParse(TokenStream stream, Scanner scanner)
         {
@@ -30,9 +30,16 @@ namespace Arrow.Definition.Statements
                     else if (stream[i].Name == operation &&
                              openBracket == 0)
                     {
-                                                
-                        Left = scanner.Scan(stream.Take(i));
-                        Right = scanner.Scan(stream.Skip(i + 1));
+
+                        if (scanner.TryGetExpression(stream.Take(i), out IExpression left))
+                            Left = left;
+
+                        if (scanner.TryGetExpression(stream.Skip(i + 1), out IExpression right))
+                            Right = right;
+
+                        if (Left == null || Right == null)
+                            throw new NotSupportedException("Read the fucking manual");
+
                         Operation = (OperationKind)Enum.Parse(typeof(OperationKind), operation);
                         Position = stream.GlobalPosition;
                         Length = 1 + Left.Length + Right.Length;

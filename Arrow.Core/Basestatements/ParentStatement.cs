@@ -6,6 +6,6 @@ namespace Arrow.Core.Basestatements
 {
     public abstract class ParentStatement : Statement
     {
-        //TODO: Implementation of Expressions?
+        public IExpression Member { get; set; }
     }
 }

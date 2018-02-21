@@ -7,7 +7,7 @@ using Arrow.Core.Scanning;
 
 namespace Arrow.Core
 {
-    public abstract class Syntax
+    public abstract class Syntax : ISyntax
     {
         public int Position { get; set; }
         public int Length { get; set; }

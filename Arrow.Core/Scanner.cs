@@ -9,32 +9,43 @@ namespace Arrow.Core
 {
     public abstract class Scanner
     {
-        Dictionary<int, Type> SyntaxDictionary;
+        protected List<Type> expressionTypes;
 
         public Scanner()
         {
-            SyntaxDictionary = new Dictionary<int, Type>();
+            expressionTypes = Assembly.GetCallingAssembly()
+                            .GetTypes()
+                            .Where(t => typeof(IExpression).IsAssignableFrom(t))
+                            .OrderBy(t => t.GetCustomAttribute<ExpressionAttribute>()?.Order ?? 0)
+                            .ToList();
         }
 
-
-        public bool TryScan(TokenStream syntaxStream, out Syntax scanResult)
-        {
-            scanResult = null;
-
-            foreach (var syntax in SyntaxDictionary)
-            {
-                scanResult = (Syntax)Activator.CreateInstance(syntax.Value);
-                if (scanResult.TryParse(syntaxStream, this))
-                    return true;
-            }
-
-            return false;
-        }
-        public bool TryScan<T>(TokenStream syntaxStream, out T scanResult)
+        public virtual bool TryScan<T>(TokenStream syntaxStream, out T scanResult)
             where T : Syntax, new()
         {
             scanResult = new T();
             return scanResult.TryParse(syntaxStream, this);
+        }
+        public virtual bool TryScan(TokenStream syntaxStream, Type type, out Syntax scanResult)
+        {
+            scanResult = (Syntax)Activator.CreateInstance(type);
+            return scanResult.TryParse(syntaxStream, this);
+        }
+
+        public virtual bool TryGetExpression(TokenStream syntaxStream, out IExpression expression)
+        {
+            expression = null;
+
+            foreach (var type in expressionTypes)
+            {
+                if (TryScan(syntaxStream, type, out Syntax result))
+                {
+                    expression = (IExpression)result;
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

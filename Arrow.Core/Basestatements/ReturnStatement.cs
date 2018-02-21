@@ -6,5 +6,6 @@ namespace Arrow.Core.Basestatements
 {
     public abstract class ReturnStatement : Statement
     {
+        public IExpression Expression { get; set; }
     }
 }

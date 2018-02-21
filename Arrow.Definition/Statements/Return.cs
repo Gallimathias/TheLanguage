@@ -18,7 +18,10 @@ namespace Arrow.Definition.Statements
 
             if (stream[0].Name == "Return")
             {
-                Expression = scanner.Scan(stream.Skip(1)); //TODO: IExpression
+                if (scanner.TryGetExpression(stream.Skip(1), out IExpression expression))
+                    Expression = expression;
+                else
+                    throw new NotSupportedException("This action is not supported");
 
                 Position = stream.GlobalPosition;
                 Length = 1 + Expression.Length;

@@ -51,10 +51,17 @@ namespace Arrow.Definition.Members
             {
                 index++;
 
-                if(scanner.TryScan(stream.Skip(index), out Operation operation)) //TODO: Expression
+                if (scanner.TryGetExpression(stream.Skip(index), out IExpression expression))
                 {
-                    throw new NotImplementedException(":( this is currently not implemented");
+                    Expression = expression;
+                    index += Expression.Length;
                 }
+                else
+                {
+                    throw new NotImplementedException("Its not currently implemented, try it again later");
+                }
+                //Todo: Exception
+                
             }
 
             if (stream[index].Name != "CodeLineEnd")

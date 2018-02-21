@@ -9,6 +9,7 @@ namespace Arrow.Core.Basemembers
     {
         public IdentifierKeyword Identifier { get; set; }
         public TypeKeyword Type { get; set; }
+        public IExpression Expression { get; set; }
 
         public bool IsParameter { get; set; }
     }

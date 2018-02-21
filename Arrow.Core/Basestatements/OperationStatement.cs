@@ -6,8 +6,8 @@ namespace Arrow.Core.Basestatements
 {
     public abstract class OperationStatement : Statement
     {
-        public Syntax Left { get; protected set; } //TODO IExpression syntax for better control
-        public Syntax Right { get; protected set; }
+        public IExpression Left { get; protected set; } 
+        public IExpression Right { get; protected set; }
         public OperationKind Operation { get; set; }
     }
 }
