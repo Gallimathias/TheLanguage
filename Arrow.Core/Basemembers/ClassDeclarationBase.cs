@@ -7,8 +7,8 @@ namespace Arrow.Core.Basemembers
 {
     public abstract class ClassDeclarationBase : Member
     {
-        public IdentifierKeyword Identifier { get; private set; }
+        public IdentifierKeyword Identifier { get; protected set; }
         public BlockBase Body { get; set; }
-        public Member BaseClass { get; set; }
+        public Keyword BaseClass { get; set; }
     }
 }
