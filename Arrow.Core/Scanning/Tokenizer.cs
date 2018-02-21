@@ -8,7 +8,7 @@ namespace Arrow.Core.Scanning
 {
     public class Tokenizer
     {
-        public TokenDefinitionCollection Definitions { get;private set; }
+        public TokenDefinitionCollection Definitions { get; private set; }
 
         public Tokenizer(TokenDefinitionCollection definitions)
         {
@@ -22,7 +22,7 @@ namespace Arrow.Core.Scanning
             for (int i = 0; i < input.Length;)
             {
                 bool isSuccess = false;
-                
+
                 foreach (var definition in Definitions)
                 {
                     var result = definition.Expression.Match(input, i);

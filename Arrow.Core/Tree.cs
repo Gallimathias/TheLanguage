@@ -4,11 +4,11 @@ namespace Arrow.Core
 {
     public abstract class Tree
     {
-        public Syntax Expression { get; set; }
+        public Syntax Root { get; set; }
 
-        public Tree(Syntax syntax)
+        public Tree(Syntax root)
         {
-            Expression = syntax;
+            Root = root;
         }
         
     }

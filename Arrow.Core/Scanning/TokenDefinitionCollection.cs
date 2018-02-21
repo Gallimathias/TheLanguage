@@ -13,8 +13,6 @@ namespace Arrow.Core.Scanning
     {
         public static TokenDefinitionCollection LoadFromIntern()
         {
-
-
             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Arrow.Core.Json.TokenDefinitions.json"))
             {
                 using (var textReader = new StreamReader(stream))

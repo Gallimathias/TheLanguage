@@ -45,12 +45,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compiler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="SimpleTest.arrow" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Arrow.Core\Arrow.Core.csproj">
+      <Project>{cdc36ccc-99cb-4462-b9d3-4889f57c5f47}</Project>
+      <Name>Arrow.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Arrow.Definition\Arrow.Definition.csproj">
+      <Project>{ea142264-2674-4177-a96d-61ef56762efe}</Project>
+      <Name>Arrow.Definition</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

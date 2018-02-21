@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Reflection.Emit;
 using Newtonsoft.Json;
 using System.IO;
-using Arrow.Core;
 
 namespace Compiler
 {
@@ -14,8 +13,9 @@ namespace Compiler
     {
         static void Main(string[] args)
         {
-            var compiler = new ArrowCompiler();
-            Console.WriteLine(compiler.RunVoid(""));
+            var compiler = new Compiler();
+
+            var tree = compiler.Parse(File.ReadAllText(@"D:\Projekte\Visual 2017\TheLanguage\Compiler\SimpleTest.arrow"));
 
             Console.ReadLine();
         }
