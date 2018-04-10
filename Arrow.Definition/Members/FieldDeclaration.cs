@@ -20,7 +20,7 @@ namespace Arrow.Definition.Members
 
             if (stream[0].Name != "Var")
                 return false;
-
+            
             if (!scanner.TryScan(stream.Get(1, 1), out identifier))
                 return false;
 
@@ -28,6 +28,8 @@ namespace Arrow.Definition.Members
 
             if (stream.Count >= index && stream[index].Name == "TypeDeclaration")
             {
+                index += 1;
+
                 if (scanner.TryScan(stream.Get(index, 1), out ComplexType complexType))
                 {
                     type = complexType;
@@ -42,7 +44,7 @@ namespace Arrow.Definition.Members
                     return false;
                 }
 
-                index += 2;
+                index += type.Length;
             }
 
             if (stream.Count < index || stream[index].Name != "CodeLineEnd")

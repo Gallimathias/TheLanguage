@@ -8,16 +8,12 @@ using System.Threading.Tasks;
 
 namespace Arrow.Definition.Members
 {
-    class Block : BlockBase
+    abstract class Block<T> : BlockBase<T> where T : Syntax
     {
         public const string OPEN_TOKEN = "ScopeBegin";
         public const string CLOSE_TOKEN = "ScopeEnd";
 
-        public Block()
-        {
-            
-        }
-      
+
         public override bool TryParse(TokenStream stream, Scanner scanner)
         {
             if (stream[0].Name != OPEN_TOKEN)
@@ -46,7 +42,7 @@ namespace Arrow.Definition.Members
                         }
                         else
                         {
-                            Members.AddRange(SearchMember(1, i, stream, scanner));
+                            Members.AddRange(SearchMember(stream.Get(1,i-1), scanner));
                         }
 
 
@@ -61,23 +57,6 @@ namespace Arrow.Definition.Members
             return false;
         }
 
-        private IEnumerable<Member> SearchMember(int start, int end, TokenStream stream, Scanner scanner)
-        {
-            int index = start;
-
-            ////TODO:Skip to Get
-            //while (index < end && scanner.TryScan<>(stream.Get(index, end - index), out Member member))
-            //{
-            //    index += member.Length;
-            //    yield return member;
-
-            //    if (index > end)
-            //    {
-            //        break;
-            //    }
-            //}
-
-            throw new NotImplementedException("Not yet implemented RTFM");
-        }
+        protected abstract IEnumerable<T> SearchMember(TokenStream stream, Scanner scanner);
     }
 }

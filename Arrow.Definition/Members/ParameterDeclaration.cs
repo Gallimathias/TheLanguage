@@ -19,7 +19,7 @@ namespace Arrow.Definition.Members
 
         public override bool TryParse(TokenStream stream, Scanner scanner)
         {
-            var result = false;
+            var result = true;
 
             if (stream.Count < 3)
                 return false;

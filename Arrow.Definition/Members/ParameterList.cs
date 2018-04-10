@@ -41,7 +41,7 @@ namespace Arrow.Definition.Members
 
                     if (openCount == 0)
                     {
-                        Members.AddRange(SearchParameter(1, i, stream, scanner));
+                        Members.AddRange(SearchParameter(stream.Get(1, i - 1), scanner));
 
                         Position = stream.GlobalPosition;
                         Length = i + 1;
@@ -54,33 +54,29 @@ namespace Arrow.Definition.Members
             return false;
         }
 
-        private List<ParameterDeclaration> SearchParameter(int start, int end, TokenStream stream, Scanner scanner)
+        private IEnumerable<ParameterDeclaration> SearchParameter(TokenStream stream, Scanner scanner)
         {
-            int index = start;
-            var tmpList = new List<ParameterDeclaration>();
+            var substream = stream;
 
-            if (end <= 1)
-                return tmpList;
-
-            for (int i = start; i <= end; i++)
+            while (substream.Count > 0)
             {
-                var token = stream[i];
-                if (token.Name == "Comma" || i == end)
-                {
-                    if (scanner.TryScan(stream.Get(index, i - index), out ParameterDeclaration parameter))
-                    {
-                        tmpList.Add(parameter);
-                    }
-                    else
-                    {
-                        throw new Exception("Wrong Parameter declaration");
-                    }
+                ParameterDeclaration parameter;
 
-                    index = i + 1;
-                }
+                if (!scanner.TryScan(substream, out parameter))
+                    throw new Exception("Wrong Parameter declaration");
+
+                yield return parameter;
+                substream = substream.Skip(parameter.Length);
+
+                if (substream.Count == 0)
+                    yield break;
+
+                if (substream[0].Name != "Comma")
+                    throw new Exception("Wrong Parameter declaration");
+
+                substream = substream.Skip(1);
             }
 
-            return tmpList;
         }
     }
 }

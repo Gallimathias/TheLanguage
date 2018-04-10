@@ -14,8 +14,6 @@ namespace Arrow.Definition.Keywords
 
         public override bool TryParse(TokenStream stream, Scanner scanner)
         {
-            if (stream.Count != 1)
-                return false;
 
             if (stream[0] is Token token)
             {

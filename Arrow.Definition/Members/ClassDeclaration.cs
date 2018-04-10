@@ -55,7 +55,7 @@ namespace Arrow.Definition.Members
                 Length = index + 1;
                 return true;
             }
-            else if (scanner.TryScan(stream.Skip(index), out Block scope))
+            else if (scanner.TryScan(stream.Skip(index), out ClassBlock scope))
             {
                 Length = index + scope.Length;
                 Body = scope;

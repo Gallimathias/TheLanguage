@@ -7,5 +7,10 @@ namespace Arrow.Core.Basemembers
     public abstract class MemberListBase : Member
     {
         public List<Member> Members { get; set; }
+
+        public MemberListBase()
+        {
+            Members = new List<Member>();
+        }
     }
 }

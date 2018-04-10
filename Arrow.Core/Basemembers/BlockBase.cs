@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Arrow.Core.Basemembers
 {
-    public abstract class BlockBase : Member
+    public abstract class BlockBase<T> : Member where T : Syntax
     {
         public Token Open { get; protected set; }
         public Token Close { get; protected set; }
@@ -13,6 +13,11 @@ namespace Arrow.Core.Basemembers
         public int Count { get; set; }
         public bool AllowEmpty { get; protected set; }
 
-        public List<Member> Members { get; set; }        
+        public List<T> Members { get; set; }
+
+        public BlockBase()
+        {
+            Members = new List<T>();
+        }
     }
 }

@@ -18,31 +18,37 @@ namespace Arrow.Definition.Members
             if (stream.Count < 4) //Because you need a method body
                 return false;
 
-            if (stream[0].Name != "MethodDeclaration")
+            int index = 0;
+
+            if (stream[index].Name != "MethodDeclaration")
                 return false;
+
+            index += 1;
 
             Identifier identifier = null;
             ParameterList parameterList = null;
             TypeKeyword type = null;
-            Block block = null;
+            MethodBlock block = null;
 
-            int index = 0;
-
-            if (!scanner.TryScan(stream.Get(1, 1), out identifier))
+            if (!scanner.TryScan(stream.Get(index, 1), out identifier))
                 return false;
 
-            if (scanner.TryScan(stream.Skip(2),out parameterList))
+            index += 1;
+            
+            if (scanner.TryScan(stream.Skip(index), out parameterList))
             {
                 index += parameterList.Length;
             }
 
             if (stream.Count >= index && stream[index].Name == "TypeDeclaration")
             {
-                if (scanner.TryScan(stream.Get(index, 1), out ComplexType complexType))
+                index += 1;
+
+                if (scanner.TryScan(stream.Skip(index), out ComplexType complexType))
                 {
                     type = complexType;
                 }
-                else if (scanner.TryScan(stream.Get(index, 1), out Primitive primitivType))
+                else if (scanner.TryScan(stream.Skip(index), out Primitive primitivType))
                 {
                     type = primitivType;
                 }
@@ -52,7 +58,7 @@ namespace Arrow.Definition.Members
                     return false;
                 }
 
-                index += 2;
+                index += type.Length;
             }
 
             if (!scanner.TryScan(stream.Skip(index), out block))
